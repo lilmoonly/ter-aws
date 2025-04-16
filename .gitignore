@@ -10,7 +10,6 @@
 
 # Не ігнорувати основні каталоги з інфраструктурою
 !aws-infra/
-!forgejo-chart/
 !forgejo-deploy/
 !terraform-bastion/
 
