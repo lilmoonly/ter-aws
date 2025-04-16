@@ -4,31 +4,36 @@ forgejo:
     tag: latest
     pullPolicy: Always
     pullSecret: ghcr-secret
+
   replicas: 2
+
   service:
     name: forgejo-app-service
+    type: LoadBalancer
     port: 3000
+
   ingress:
     enabled: false  # AWS LoadBalancer
     host: forgejo.local
     path: /
+
   config:
     appName: "Forgejo"
     httpPort: "3000"
-    rootUrl: "http://forgejo.local"
-    domain: "forgejo.local"
-    sshDomain: "forgejo.local"
+    rootUrl:
+    domain:
+    sshDomain:
     httpAddr: "0.0.0.0"
     dbType: "postgres"
-    dbHost: 
-    dbPort: 
-    dbName: 
-  credentials:
-    secretName: forgejo-secret  
-    dbUser:
-    dbPass: 
-    secretKey:
+    dbHost:
+    dbPort:
+    dbName:
 
+  credentials:
+    secretName: forgejo-secret
+    dbUser:
+    dbPass:
+    secretKey:
 
 imagePullSecret:
   enabled: true

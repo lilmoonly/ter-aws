@@ -5,6 +5,7 @@ metadata:
   labels:
     app: forgejo-app
 spec:
+  type: {{ .Values.forgejo.service.type | default "ClusterIP" }}
   selector:
     app: forgejo-app
   ports:

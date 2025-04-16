@@ -3,13 +3,16 @@
 *.tfstate
 *.tfstate.*
 
+
 .terraform.lock.hcl
+
 
 terraform.tfvars
 
 crash.log
 
+# IDE/OS
+*.log
 .vscode/
 .idea/
-*.log
-
+.DS_Store

@@ -108,6 +108,7 @@ module "rds" {
   publicly_accessible     = var.publicly_accessible
   backup_retention_period = var.backup_retention_period
   deletion_protection     = false
+  create_random_password = false
 
   create_db_subnet_group = false
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
