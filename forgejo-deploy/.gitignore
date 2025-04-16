@@ -1,0 +1,14 @@
+.terraform/
+
+*.tfstate
+*.tfstate.*
+
+.terraform.lock.hcl
+
+terraform.tfvars
+
+crash.log
+
+.vscode/
+.idea/
+*.log

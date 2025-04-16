@@ -1,0 +1,20 @@
+# Глобальні файли та каталоги, які НЕ потрібні у репозиторії
+.bash_history
+.bash_logout
+.bashrc
+.cache/
+.gitconfig
+.ssh/
+.terraform.d/
+.aws/
+
+# Не ігнорувати основні каталоги з інфраструктурою
+!aws-infra/
+!forgejo-chart/
+!forgejo-deploy/
+!terraform-bastion/
+
+
+
+.kube/
+.profile
