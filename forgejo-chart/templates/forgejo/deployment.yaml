@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgejo-app
+spec:
+  replicas: {{ .Values.forgejo.replicas }}
+  selector:
+    matchLabels:
+      app: forgejo-app
+  template:
+    metadata:
+      labels:
+        app: forgejo-app
+    spec:
+      {{- if .Values.imagePullSecret.enabled }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecret.name }}
+      {{- end }}
+      containers:
+        - name: forgejo-app
+          image: "{{ .Values.forgejo.image.repository }}:{{ .Values.forgejo.image.tag }}"
+          imagePullPolicy: {{ .Values.forgejo.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.forgejo.service.port }}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          envFrom:
+            - configMapRef:
+                name: forgejo-configs
+            - secretRef:
+                name: forgejo-secrets

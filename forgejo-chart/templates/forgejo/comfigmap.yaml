@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forgejo-configs
+data:
+  FORGEJO_APP_NAME: {{ .Values.forgejo.config.appName | quote }}
+  FORGEJO_HTTP_PORT: {{ .Values.forgejo.config.httpPort | quote }}
+  FORGEJO_ROOT_URL: {{ .Values.forgejo.config.rootUrl | quote }}
+  FORGEJO_DOMAIN: {{ .Values.forgejo.config.domain | quote }}
+  FORGEJO_SSH_DOMAIN: {{ .Values.forgejo.config.sshDomain | quote }}
+  FORGEJO_HTTP_ADDR: {{ .Values.forgejo.config.httpAddr | quote }}
+  FORGEJO_DB_TYPE: {{ .Values.forgejo.config.dbType | quote }}
+  FORGEJO_DB_HOST: {{ .Values.forgejo.config.dbHost | quote }}
+  FORGEJO_DB_PORT: {{ .Values.forgejo.config.dbPort | quote }}
+  FORGEJO_DB_NAME: {{ .Values.forgejo.config.dbName | quote }}
+  FORGEJO_SSL_MODE: "require"

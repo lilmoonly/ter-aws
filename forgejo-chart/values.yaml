@@ -1,0 +1,36 @@
+forgejo:
+  image:
+    repository: ghcr.io/lilmoonly/forgejo-ghcr
+    tag: latest
+    pullPolicy: Always
+    pullSecret: ghcr-secret
+  replicas: 2
+  service:
+    name: forgejo-app-service
+    port: 3000
+  ingress:
+    enabled: false  # AWS LoadBalancer
+    host: forgejo.local
+    path: /
+  config:
+    appName: "Forgejo"
+    httpPort: "3000"
+    rootUrl: "http://forgejo.local"
+    domain: "forgejo.local"
+    sshDomain: "forgejo.local"
+    httpAddr: "0.0.0.0"
+    dbType: "postgres"
+    dbHost: 
+    dbPort: 
+    dbName: 
+  credentials:
+    secretName: forgejo-secret  
+    dbUser:
+    dbPass: 
+    secretKey:
+
+
+imagePullSecret:
+  enabled: true
+  name: ghcr-secret
+  dockerconfigjson: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoibGlsbW9vbmx5IiwicGFzc3dvcmQiOiJnaHBfTjg2OXVFTTlXeFhvY2dadUV1THM3N09RQ213R0ZHNDdEb0R4IiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiYXV0aCI6ImJHbHNiVzl2Ym14NU9tZG9jRjlPT0RZNWRVVk5PVmQ0V0c5aloxcDFSWFZNY3pjM1QxRkRiWGRIUmtjME4wUnZSSGc9In19fQ==
