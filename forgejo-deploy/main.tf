@@ -1,10 +1,3 @@
-data "terraform_remote_state" "infra" {
-  backend = "local"
-  config = {
-    path = "../aws-infra/terraform.tfstate"
-  }
-}
-
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"

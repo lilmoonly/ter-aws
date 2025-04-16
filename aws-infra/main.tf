@@ -1,14 +1,5 @@
 data "aws_caller_identity" "current" {}
 
-data "terraform_remote_state" "bastion" {
-  backend = "s3"
-  config = {
-    bucket = "forgejo-terraform-state"
-    key    = "terraform-bastion/terraform.tfstate"
-    region = "eu-central-1"
-  }
-}
-
 module "vpc" {
   source               = "./modules/vpc"
   project_name         = var.project_name
@@ -36,7 +27,7 @@ module "eks" {
   enable_irsa                          = true
   cluster_endpoint_public_access       = true
   cluster_endpoint_private_access      = true
-  cluster_endpoint_public_access_cidrs = ["${data.terraform_remote_state.bastion.outputs.bastion_public_ip}/32", "195.160.235.15/32"]
+  cluster_endpoint_public_access_cidrs = ["195.160.235.15/32"]
 
   eks_managed_node_groups = {
     default = {
@@ -116,7 +107,7 @@ module "rds" {
   multi_az                = var.multi_az
   publicly_accessible     = var.publicly_accessible
   backup_retention_period = var.backup_retention_period
-  deletion_protection     = true
+  deletion_protection     = false
 
   create_db_subnet_group = false
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
@@ -133,12 +124,3 @@ module "rds" {
   )
 }
 
-resource "aws_security_group_rule" "allow_bastion_to_eks" {
-  type              = "ingress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "tcp"
-  cidr_blocks       = ["10.0.1.0/24"]
-  security_group_id = module.eks.cluster_security_group_id
-  description       = "Allow Bastion to access EKS API server"
-}
