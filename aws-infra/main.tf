@@ -1,5 +1,14 @@
 data "aws_caller_identity" "current" {}
 
+data "terraform_remote_state" "ecr" {
+  backend = "s3"
+  config = {
+    bucket = "forgejo-terraform-state-bucket"
+    key    = "terraform-ecr/terraform.tfstate"
+    region = "eu-central-1"
+  }
+}
+
 module "vpc" {
   source               = "./modules/vpc"
   project_name         = var.project_name
@@ -11,8 +20,9 @@ module "vpc" {
 }
 
 module "eks_admin" {
-  source = "./modules/iam"
+  source = "./modules/iam/eks_admin"
 }
+
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -108,7 +118,7 @@ module "rds" {
   publicly_accessible     = var.publicly_accessible
   backup_retention_period = var.backup_retention_period
   deletion_protection     = false
-  create_random_password = false
+  create_random_password  = false
 
   create_db_subnet_group = false
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name

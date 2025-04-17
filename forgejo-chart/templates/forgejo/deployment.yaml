@@ -12,7 +12,7 @@ spec:
       labels:
         app: forgejo-app
     spec:
-      {{- if .Values.imagePullSecret.enabled }}
+      {{- if and .Values.imagePullSecret.enabled .Values.imagePullSecret.dockerconfigjson }}
       imagePullSecrets:
         - name: {{ .Values.imagePullSecret.name }}
       {{- end }}

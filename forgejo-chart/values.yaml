@@ -1,9 +1,8 @@
 forgejo:
   image:
-    repository: ghcr.io/lilmoonly/forgejo-ghcr
-    tag: latest
+    repository: 733573665725.dkr.ecr.eu-central-1.amazonaws.com/forgejo
+    tag: latest     
     pullPolicy: Always
-    pullSecret: ghcr-secret
 
   replicas: 2
 
@@ -35,7 +34,8 @@ forgejo:
     dbPass:
     secretKey:
 
+
 imagePullSecret:
   enabled: true
-  name: ghcr-secret
-  dockerconfigjson: eyJhdXRocyI6eyJnaGNyLmlvIjp7InVzZXJuYW1lIjoibGlsbW9vbmx5IiwicGFzc3dvcmQiOiJnaHBfTjg2OXVFTTlXeFhvY2dadUV1THM3N09RQ213R0ZHNDdEb0R4IiwiZW1haWwiOiJleGFtcGxlQGV4YW1wbGUuY29tIiwiYXV0aCI6ImJHbHNiVzl2Ym14NU9tZG9jRjlPT0RZNWRVVk5PVmQ0V0c5aloxcDFSWFZNY3pjM1QxRkRiWGRIUmtjME4wUnZSSGc9In19fQ==
+  name: ecr-secret
+  dockerconfigjson: "" 
