@@ -6,7 +6,7 @@ data "terraform_remote_state" "infra" {
   backend = "s3"
 
   config = {
-    bucket = "forgejo-terraform-state-bucket"
+    bucket = "forgejo-terraform-state-bucket-s3"
     key    = "aws-infra/terraform.tfstate"
     region = "eu-central-1"
   }

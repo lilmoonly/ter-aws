@@ -3,14 +3,20 @@ provider "helm" {
     config_path = "~/.kube/config"
   }
 }
+
 data "terraform_remote_state" "infra" {
   backend = "s3"
   config = {
-    bucket         = "forgejo-terraform-state-bucket"
+    bucket         = "forgejo-terraform-state-bucket-s3"
     key            = "aws-infra/terraform.tfstate"
     region         = "eu-central-1"
     dynamodb_table = "terraform-locks"
   }
+}
+
+locals {
+  rds_host = split(":", data.terraform_remote_state.infra.outputs.rds_endpoint)[0]
+  rds_port = split(":", data.terraform_remote_state.infra.outputs.rds_endpoint)[1]
 }
 
 resource "helm_release" "forgejo" {
@@ -20,9 +26,13 @@ resource "helm_release" "forgejo" {
 
   set {
     name  = "forgejo.config.dbHost"
-    value = data.terraform_remote_state.infra.outputs.rds_endpoint
+    value = local.rds_host
   }
 
+  set {
+    name  = "forgejo.config.dbPort"
+    value = local.rds_port
+  }
 
   set {
     name  = "forgejo.credentials.dbUser"
@@ -43,15 +53,4 @@ resource "helm_release" "forgejo" {
     name  = "forgejo.config.dbName"
     value = var.db_name
   }
-
-  set {
-    name  = "forgejo.config.dbHost"
-    value = data.terraform_remote_state.infra.outputs.rds_host
-  }
-
-  set {
-    name  = "forgejo.config.dbPort"
-    value = data.terraform_remote_state.infra.outputs.rds_port
-  }
-
 }

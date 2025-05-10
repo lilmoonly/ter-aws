@@ -1,6 +1,6 @@
 forgejo:
   image:
-    repository: 733573665725.dkr.ecr.eu-central-1.amazonaws.com/forgejo
+    repository: 212757224597.dkr.ecr.eu-central-1.amazonaws.com/forgejo
     tag: latest     
     pullPolicy: Always
 

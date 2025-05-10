@@ -7,7 +7,7 @@ resource "aws_iam_role" "eks_admin" {
       {
         Effect = "Allow",
         Principal = {
-          AWS = "arn:aws:iam::733573665725:user/eks-admin"
+          AWS = "arn:aws:iam::212757224597:user/eks-admin"
         },
         Action = "sts:AssumeRole"
       }
@@ -23,8 +23,8 @@ resource "aws_iam_policy" "eks_admin_custom" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "eks:*",
           "ec2:Describe*",
           "iam:ListRoles",
@@ -40,4 +40,24 @@ resource "aws_iam_policy" "eks_admin_custom" {
 resource "aws_iam_role_policy_attachment" "eks_admin_attach" {
   role       = aws_iam_role.eks_admin.name
   policy_arn = aws_iam_policy.eks_admin_custom.arn
+}
+
+resource "aws_iam_policy" "allow_assume_eks_admin_role" {
+  name = "AllowAssumeEksAdminRole"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = "sts:AssumeRole",
+        Resource = aws_iam_role.eks_admin.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_user_policy_attachment" "eks_admin_user_attach" {
+  user       = "eks-admin"
+  policy_arn = aws_iam_policy.allow_assume_eks_admin_role.arn
 }

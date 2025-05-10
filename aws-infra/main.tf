@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 data "terraform_remote_state" "ecr" {
   backend = "s3"
   config = {
-    bucket = "forgejo-terraform-state-bucket"
+    bucket = "forgejo-terraform-state-bucket-s3"
     key    = "terraform-ecr/terraform.tfstate"
     region = "eu-central-1"
   }
@@ -37,7 +37,7 @@ module "eks" {
   enable_irsa                          = true
   cluster_endpoint_public_access       = true
   cluster_endpoint_private_access      = true
-  cluster_endpoint_public_access_cidrs = ["195.160.235.15/32"]
+  cluster_endpoint_public_access_cidrs = ["91.214.208.166/32"]
 
   eks_managed_node_groups = {
     default = {

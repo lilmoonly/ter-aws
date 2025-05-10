@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "forgejo-terraform-state-bucket"
+    bucket = "forgejo-terraform-state-bucket-s3"
     key    = "terraform-codebuild/terraform.tfstate"
     region = "eu-central-1"
   }
@@ -20,7 +20,7 @@ provider "aws" {
 data "terraform_remote_state" "ecr" {
   backend = "s3"
   config = {
-    bucket = "forgejo-terraform-state-bucket"
+    bucket = "forgejo-terraform-state-bucket-s3"
     key    = "terraform-ecr/terraform.tfstate"
     region = "eu-central-1"
   }
